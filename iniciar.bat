@@ -5,5 +5,5 @@ echo   Iniciando pagina de Pre-Registro de PBERRIO...
 echo ========================================================
 echo.
 start http://localhost:3000
-node server.js
+node local-server.js
 pause
