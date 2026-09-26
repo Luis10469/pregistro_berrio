@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PBerrio | Transporte, Domicilios y Envíos en Puerto Berrío</title>
+  <meta name="description" content="Sé parte del inicio de algo grande. Únete a la lista de espera de PBerrio y sé de los primeros en probar la nueva app de transporte y domicilios en Puerto Berrío, Antioquia.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Tipografía Google Fonts Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Confetti para animación de éxito -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Fondo escénico con overlay -->
+  <div class="scenic-backdrop"></div>
+  <div class="backdrop-gradient-overlay"></div>
+
+  <!-- Contenedor Principal -->
+  <div class="page-wrapper">
+    <!-- Barra superior / Header -->
+    <header class="top-nav">
+      <div class="logo-container">
+        <img src="assets/logo-full.png" alt="PBerrio - Transporte, Domicilios, Para Ti" class="brand-logo">
+      </div>
+      <div class="location-badge">
+        <i data-lucide="map-pin" class="badge-icon"></i>
+        <div class="location-text">
+          <span class="location-city">PUERTO BERRÍO</span>
+          <span class="location-state">ANTIOQUIA</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido Hero (2 Columnas en Desktop) -->
+    <main class="hero-section">
+      <!-- Columna Izquierda: Información + Formulario -->
+      <section class="hero-left">
+        <!-- Badge Móvil de Puerto Berrío -->
+        <div class="mobile-location-pill">
+          <i data-lucide="map-pin" class="pill-icon"></i>
+          <span>PUERTO BERRÍO • ANTIOQUIA</span>
+        </div>
+
+        <!-- Titulares -->
+        <div class="headline-container">
+          <div class="mobile-badge-tag">MUY PRONTO</div>
+          <h1 class="main-title">
+            Sé parte del inicio<br>
+            <span class="gradient-text">de algo grande</span>
+          </h1>
+          <p class="subtitle">
+            Únete a nuestra lista de espera y sé de los primeros en vivir una nueva forma de moverte, pedir y recibir en <strong>Puerto Berrío</strong>.
+          </p>
+        </div>
+
+        <!-- 4 Pilares / Servicios de PBerrio -->
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon-wrapper car-bg">
+              <i data-lucide="car" class="feature-icon"></i>
+            </div>
+            <div class="feature-info">
+              <h3>Transporte seguro</h3>
+              <p>Viaja tranquilo y rápido</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper delivery-bg">
+              <i data-lucide="bike" class="feature-icon"></i>
+            </div>
+            <div class="feature-info">
+              <h3>Domicilios rápidos</h3>
+              <p>Lo que necesitas a tu puerta</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper food-bg">
+              <i data-lucide="utensils" class="feature-icon"></i>
+            </div>
+            <div class="feature-info">
+              <h3>Tus restaurantes favoritos</h3>
+              <p>El mejor sabor local</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper package-bg">
+              <i data-lucide="package" class="feature-icon"></i>
+            </div>
+            <div class="feature-info">
+              <h3>Envíos confiables</h3>
+              <p>Paquetes y encomiendas</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mockup Visual para vista móvil -->
+        <div class="mobile-mockup-display">
+          <img src="assets/hero-phone.png" alt="PBerrio App en Puerto Berrío" class="phone-mockup-img">
+        </div>
+
+        <!-- Tarjeta de Registro (Glassmorphism Form) -->
+        <div class="waitlist-card" id="registro">
+          <div class="card-header">
+            <div class="live-dot-wrapper">
+              <span class="live-pulse"></span>
+              <span class="live-label">CUPOS LIMITADOS PARA PRIMERA FASE</span>
+            </div>
+            <h2 class="card-title">Únete a la <span class="highlight-blue">lista de espera</span></h2>
+            <p class="card-subtitle">Recibe novedades exclusivas y sé de los primeros en probar la app con beneficios de lanzamiento.</p>
+          </div>
+
+          <form id="waitlist-form" novalidate>
+            <!-- Campo Nombre -->
+            <div class="form-group">
+              <label for="name" class="input-label">Tu nombre completo</label>
+              <div class="input-wrapper">
+                <i data-lucide="user" class="input-icon"></i>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  placeholder="Ej. Juan Gómez" 
+                  required 
+                  autocomplete="name"
+                >
+              </div>
+              <span class="field-error" id="name-error"></span>
+            </div>
+
+            <!-- Campo WhatsApp -->
+            <div class="form-group">
+              <label for="phone" class="input-label">Número de WhatsApp</label>
+              <div class="input-wrapper phone-wrapper">
+                <div class="country-prefix">
+                  <span class="flag">🇨🇴</span>
+                  <span class="code">+57</span>
+                </div>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  name="phone" 
+                  placeholder="300 123 4567" 
+                  required 
+                  autocomplete="tel"
+                >
+              </div>
+              <span class="field-error" id="phone-error"></span>
+            </div>
+
+            <!-- Campo Correo -->
+            <div class="form-group">
+              <label for="email" class="input-label">Tu correo electrónico</label>
+              <div class="input-wrapper">
+                <i data-lucide="mail" class="input-icon"></i>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  placeholder="tu@correo.com" 
+                  required 
+                  autocomplete="email"
+                >
+              </div>
+              <span class="field-error" id="email-error"></span>
+            </div>
+
+            <!-- Botón Enviar -->
+            <button type="submit" id="submit-btn" class="cta-button">
+              <span class="btn-text">Quiero unirme</span>
+              <i data-lucide="arrow-right" class="btn-icon"></i>
+              <div class="btn-spinner" style="display: none;"></div>
+            </button>
+          </form>
+
+          <!-- Nota de Privacidad -->
+          <div class="privacy-note">
+            <i data-lucide="shield-check" class="privacy-icon"></i>
+            <span>Tu información estará segura y solo la usaremos para enviarte novedades sobre el lanzamiento.</span>
+          </div>
+
+          <!-- Mensaje de Éxito Flotante / Embebido -->
+          <div id="success-state" class="success-box" style="display: none;">
+            <div class="success-icon-wrapper">
+              <i data-lucide="check-circle" class="success-icon"></i>
+            </div>
+            <h3 class="success-title">¡Ya estás en la lista de espera!</h3>
+            <p class="success-desc">
+              Gracias <strong id="registered-user-name">amigo</strong> por creer en el futuro de Puerto Berrío. Te avisaremos a tu WhatsApp y correo tan pronto abramos el primer acceso.
+            </p>
+            <div class="success-share">
+              <p class="share-title">¿Conoces a alguien más en Puerto Berrío?</p>
+              <a id="whatsapp-share-btn" href="#" target="_blank" class="share-wa-btn">
+                <i data-lucide="message-circle" class="wa-icon"></i>
+                Compartir por WhatsApp
+              </a>
+            </div>
+            <button type="button" id="register-another-btn" class="secondary-btn">Registrar a otra persona</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Columna Derecha: Mockup Visual en Desktop -->
+      <section class="hero-right">
+        <div class="mockup-frame">
+          <img src="assets/hero-desktop.png" alt="App PBerrio en Puerto Berrío" class="hero-desktop-img">
+          
+          <!-- Elementos flotantes interactivos de confianza -->
+          <div class="floating-pill app-status-pill">
+            <span class="pulse-green"></span>
+            <div>
+              <strong>Lanzamiento 2026</strong>
+              <span>App en fase de pruebas finales</span>
+            </div>
+          </div>
+
+          <div class="floating-pill towns-pill">
+            <i data-lucide="map" class="towns-icon"></i>
+            <div>
+              <strong>100% Hecho para Puerto Berrío</strong>
+              <span>Conectando el Magdalena Medio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer minimalista -->
+    <footer class="page-footer">
+      <div class="footer-content">
+        <p>© 2026 <strong>PBerrio</strong>. Todos los derechos reservados. Puerto Berrío, Antioquia.</p>
+        <div class="footer-links">
+          <button id="open-admin-btn" class="admin-link">
+            <i data-lucide="database" class="admin-icon"></i>
+            Panel de Registros (<span id="leads-count-badge">0</span>)
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modal de Administración para ver y descargar registros en Excel/CSV -->
+  <div id="admin-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i data-lucide="users" class="modal-title-icon"></i>
+          <div>
+            <h3>Registros de Lista de Espera</h3>
+            <p>Datos guardados localmente y sincronizados</p>
+          </div>
+        </div>
+        <button id="close-admin-btn" class="close-modal-btn">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-stats">
+        <div class="stat-card">
+          <span class="stat-number" id="stat-total-leads">0</span>
+          <span class="stat-label">Personas inscritas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat-sync-status">Activo</span>
+          <span class="stat-label">Estado de sincronización</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="export-csv-btn" class="action-btn export-btn">
+          <i data-lucide="download"></i>
+          Descargar Excel (CSV)
+        </button>
+        <button id="clear-leads-btn" class="action-btn delete-btn">
+          <i data-lucide="trash-2"></i>
+          Limpiar registros
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Fecha</th>
+              <th>Nombre</th>
+              <th>WhatsApp</th>
+              <th>Correo</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="leads-table-body">
+            <tr>
+              <td colspan="6" class="empty-table-msg">No hay registros aún. Sé el primero en inscribirte.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Inicializar iconos de Lucide
+    lucide.createIcons();
+  </script>
+</body>
+</html>
