@@ -243,74 +243,8 @@
     <footer class="page-footer">
       <div class="footer-content">
         <p>© 2026 <strong>PBerrio</strong>. Todos los derechos reservados. Puerto Berrío, Antioquia.</p>
-        <div class="footer-links">
-          <button id="open-admin-btn" class="admin-link">
-            <i data-lucide="database" class="admin-icon"></i>
-            Panel de Registros (<span id="leads-count-badge">0</span>)
-          </button>
-        </div>
       </div>
     </footer>
-  </div>
-
-  <!-- Modal de Administración para ver y descargar registros en Excel/CSV -->
-  <div id="admin-modal" class="modal-backdrop" style="display: none;">
-    <div class="modal-box">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <i data-lucide="users" class="modal-title-icon"></i>
-          <div>
-            <h3>Registros de Lista de Espera</h3>
-            <p>Datos guardados localmente y sincronizados</p>
-          </div>
-        </div>
-        <button id="close-admin-btn" class="close-modal-btn">
-          <i data-lucide="x"></i>
-        </button>
-      </div>
-
-      <div class="modal-stats">
-        <div class="stat-card">
-          <span class="stat-number" id="stat-total-leads">0</span>
-          <span class="stat-label">Personas inscritas</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-number" id="stat-sync-status">Activo</span>
-          <span class="stat-label">Estado de sincronización</span>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button id="export-csv-btn" class="action-btn export-btn">
-          <i data-lucide="download"></i>
-          Descargar Excel (CSV)
-        </button>
-        <button id="clear-leads-btn" class="action-btn delete-btn">
-          <i data-lucide="trash-2"></i>
-          Limpiar registros
-        </button>
-      </div>
-
-      <div class="table-container">
-        <table class="leads-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Fecha</th>
-              <th>Nombre</th>
-              <th>WhatsApp</th>
-              <th>Correo</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="leads-table-body">
-            <tr>
-              <td colspan="6" class="empty-table-msg">No hay registros aún. Sé el primero en inscribirte.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
   <!-- Scripts -->

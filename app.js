@@ -26,26 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const whatsappShareBtn = document.getElementById('whatsapp-share-btn');
   const registerAnotherBtn = document.getElementById('register-another-btn');
 
-  // Admin Modal
-  const openAdminBtn = document.getElementById('open-admin-btn');
-  const closeAdminBtn = document.getElementById('close-admin-btn');
-  const adminModal = document.getElementById('admin-modal');
-  const leadsCountBadge = document.getElementById('leads-count-badge');
-  const statTotalLeads = document.getElementById('stat-total-leads');
-  const statSyncStatus = document.getElementById('stat-sync-status');
-  const exportCsvBtn = document.getElementById('export-csv-btn');
-  const clearLeadsBtn = document.getElementById('clear-leads-btn');
-  const leadsTableBody = document.getElementById('leads-table-body');
-
-  // Inicializar contador de leads
-  updateLeadsCounter();
-
   // Validación en tiempo real al escribir
   nameInput.addEventListener('input', () => clearError(nameInput, nameError));
-  phoneInput.addEventListener('input', (e) => {
-    // Formatear automáticamente dígitos
-    clearError(phoneInput, phoneError);
-  });
+  phoneInput.addEventListener('input', () => clearError(phoneInput, phoneError));
   emailInput.addEventListener('input', () => clearError(emailInput, emailError));
 
   // Envío del Formulario
@@ -97,10 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       source: 'PBerrio Web Landing'
     };
 
-    // 1. Guardar en LocalStorage
-    saveLeadLocally(lead);
-
-    // 2. Sincronizar con Google Sheets (si está configurada la URL)
+    // 1. Sincronizar directamente con Google Sheets
     if (APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL && APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL.trim() !== '') {
       try {
         await fetch(APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL, {
@@ -112,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(lead)
         });
       } catch (webhookErr) {
-        console.warn('No se pudo contactar el webhook de Google Sheets, el registro quedó a salvo en local.', webhookErr);
+        console.warn('Error al contactar Google Sheets:', webhookErr);
       }
     }
 
@@ -145,9 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         colors: ['#0052ff', '#00d4ff', '#ff5400', '#ffffff']
       });
     }
-
-    // Actualizar badge
-    updateLeadsCounter();
   }
 
   // Registrar a otra persona
@@ -158,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nameInput.focus();
   });
 
-  // Funciones de validación
+  // Funciones auxiliares de error y carga
   function showError(input, errorElement, message) {
     errorElement.textContent = message;
     errorElement.classList.add('active');
@@ -183,167 +160,5 @@ document.addEventListener('DOMContentLoaded', () => {
       btnIcon.style.display = 'block';
       btnSpinner.style.display = 'none';
     }
-  }
-
-  // Almacenamiento Local
-  function getLeads() {
-    try {
-      const data = localStorage.getItem(APP_CONFIG.STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function saveLeadLocally(lead) {
-    const leads = getLeads();
-    leads.unshift(lead); // Más reciente primero
-    localStorage.setItem(APP_CONFIG.STORAGE_KEY, JSON.stringify(leads));
-  }
-
-  function updateLeadsCounter() {
-    const leads = getLeads();
-    const count = leads.length;
-    if (leadsCountBadge) leadsCountBadge.textContent = count;
-    if (statTotalLeads) statTotalLeads.textContent = count;
-  }
-
-  // ==========================================================================
-  // Panel de Administración (Modal & Exportar CSV)
-  // ==========================================================================
-
-  function renderLeadsTable() {
-    const leads = getLeads();
-    updateLeadsCounter();
-
-    if (statSyncStatus) {
-      statSyncStatus.textContent = APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL ? 'Conectado a Google' : 'Local / Navegador';
-    }
-
-    if (leads.length === 0) {
-      leadsTableBody.innerHTML = `
-        <tr>
-          <td colspan="6" class="empty-table-msg">No hay registros aún. Sé el primero en inscribirte.</td>
-        </tr>
-      `;
-      return;
-    }
-
-    leadsTableBody.innerHTML = leads.map((item, index) => {
-      const waNumber = item.rawPhone || item.phone.replace(/\D/g, '');
-      const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('¡Hola ' + item.name + '! Te saludamos de PBerrio.')}`;
-
-      return `
-        <tr>
-          <td><strong>${leads.length - index}</strong></td>
-          <td>${item.formattedDate || item.createdAt.split('T')[0]}</td>
-          <td><strong>${escapeHtml(item.name)}</strong></td>
-          <td>
-            <a href="${waLink}" target="_blank" class="wa-table-link">
-              <i data-lucide="message-circle" style="width:14px; height:14px;"></i>
-              ${escapeHtml(item.phone)}
-            </a>
-          </td>
-          <td>${escapeHtml(item.email)}</td>
-          <td>
-            <button class="secondary-btn" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="deleteLead('${item.id}')">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      `;
-    }).join('');
-
-    if (window.lucide) {
-      lucide.createIcons();
-    }
-  }
-
-  // Función global para eliminar registro individual
-  window.deleteLead = function(id) {
-    if (!confirm('¿Deseas eliminar este registro de la lista local?')) return;
-    let leads = getLeads();
-    leads = leads.filter(l => l.id !== id);
-    localStorage.setItem(APP_CONFIG.STORAGE_KEY, JSON.stringify(leads));
-    renderLeadsTable();
-  };
-
-  // Abrir / Cerrar Admin
-  openAdminBtn.addEventListener('click', () => {
-    renderLeadsTable();
-    adminModal.style.display = 'flex';
-  });
-
-  closeAdminBtn.addEventListener('click', () => {
-    adminModal.style.display = 'none';
-  });
-
-  adminModal.addEventListener('click', (e) => {
-    if (e.target === adminModal) {
-      adminModal.style.display = 'none';
-    }
-  });
-
-  // Atajo de teclado: Ctrl + Shift + L para abrir el panel de leads
-  document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l')) {
-      renderLeadsTable();
-      adminModal.style.display = 'flex';
-    }
-    if (e.key === 'Escape' && adminModal.style.display === 'flex') {
-      adminModal.style.display = 'none';
-    }
-  });
-
-  // Exportar a CSV (Compatible con Microsoft Excel de Latinoamérica con acentos)
-  exportCsvBtn.addEventListener('click', () => {
-    const leads = getLeads();
-    if (leads.length === 0) {
-      alert('No hay registros guardados para exportar.');
-      return;
-    }
-
-    let csvContent = '\uFEFF'; // BOM para que Excel respete tildes y caracteres en español
-    csvContent += 'ID;Fecha y Hora;Nombre Completo;WhatsApp;Correo Electronico;Origen\n';
-
-    leads.forEach((l, index) => {
-      const row = [
-        l.id || (index + 1),
-        `"${(l.formattedDate || l.createdAt).replace(/"/g, '""')}"`,
-        `"${(l.name || '').replace(/"/g, '""')}"`,
-        `"${(l.phone || '').replace(/"/g, '""')}"`,
-        `"${(l.email || '').replace(/"/g, '""')}"`,
-        `"${(l.source || 'PBerrio Web').replace(/"/g, '""')}"`
-      ];
-      csvContent += row.join(';') + '\n';
-    });
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `PBerrio_Lista_Espera_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  });
-
-  // Limpiar todos los registros
-  clearLeadsBtn.addEventListener('click', () => {
-    if (confirm('¿Estás seguro de que deseas borrar TODOS los registros locales? Esta acción no se puede deshacer.')) {
-      localStorage.removeItem(APP_CONFIG.STORAGE_KEY);
-      renderLeadsTable();
-    }
-  });
-
-  function escapeHtml(text) {
-    const map = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, m => map[m]);
   }
 });
