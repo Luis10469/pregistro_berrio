@@ -2,74 +2,75 @@
  * =============================================================================
  * PBERRIO - Lógica y Comportamiento de la Lista de Espera
  * =============================================================================
+ * El pre-registro pide solo nombre y correo y los envía a Google Sheets.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   // Elementos del Formulario
   const form = document.getElementById('waitlist-form');
+  const formView = document.getElementById('signup-form-view');
   const nameInput = document.getElementById('name');
-  const phoneInput = document.getElementById('phone');
   const emailInput = document.getElementById('email');
   const submitBtn = document.getElementById('submit-btn');
   const btnText = submitBtn.querySelector('.btn-text');
-  const btnIcon = submitBtn.querySelector('.btn-icon');
-  const btnSpinner = submitBtn.querySelector('.btn-spinner');
 
   // Elementos de Error
   const nameError = document.getElementById('name-error');
-  const phoneError = document.getElementById('phone-error');
   const emailError = document.getElementById('email-error');
+  const formError = document.getElementById('form-error');
 
   // Estado de Éxito
   const successState = document.getElementById('success-state');
+  const successTitle = successState.querySelector('.success-title');
   const registeredUserName = document.getElementById('registered-user-name');
+  const registeredUserEmail = document.getElementById('registered-user-email');
   const whatsappShareBtn = document.getElementById('whatsapp-share-btn');
   const registerAnotherBtn = document.getElementById('register-another-btn');
 
   // Validación en tiempo real al escribir
   nameInput.addEventListener('input', () => clearError(nameInput, nameError));
-  phoneInput.addEventListener('input', () => clearError(phoneInput, phoneError));
   emailInput.addEventListener('input', () => clearError(emailInput, emailError));
 
   // Envío del Formulario
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (submitBtn.disabled) return;
 
-    const name = nameInput.value.trim();
-    const phone = phoneInput.value.trim().replace(/\s+/g, ' ');
+    formError.textContent = '';
+
+    const name = nameInput.value.trim().replace(/\s+/g, ' ');
     const email = emailInput.value.trim().toLowerCase();
 
     // Validaciones
-    let isValid = true;
+    let firstInvalid = null;
 
     if (name.length < 2) {
-      showError(nameInput, nameError, 'Por favor escribe tu nombre completo.');
-      isValid = false;
-    }
-
-    const cleanPhoneDigits = phone.replace(/\D/g, '');
-    if (cleanPhoneDigits.length < 7 || cleanPhoneDigits.length > 12) {
-      showError(phoneInput, phoneError, 'Ingresa un número de celular o WhatsApp válido.');
-      isValid = false;
+      showError(nameInput, nameError, 'Por favor escribe tu nombre.');
+      firstInvalid = firstInvalid || nameInput;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       showError(emailInput, emailError, 'Ingresa un correo electrónico válido (ej: nombre@gmail.com).');
-      isValid = false;
+      firstInvalid = firstInvalid || emailInput;
     }
 
-    if (!isValid) return;
+    if (firstInvalid) {
+      firstInvalid.focus();
+      return;
+    }
 
-    // Estado cargando en el botón
-    setLoading(true);
+    const webhookUrl = (APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL || '').trim();
+    if (!webhookUrl) {
+      console.error('Falta GOOGLE_SHEET_WEBHOOK_URL en config.js: el registro no se puede guardar.');
+      formError.textContent = 'El registro no está disponible en este momento. Inténtalo más tarde.';
+      return;
+    }
 
     const now = new Date();
     const lead = {
       id: 'pb_' + Date.now(),
       name: name,
-      phone: '+57 ' + cleanPhoneDigits,
-      rawPhone: '57' + cleanPhoneDigits,
       email: email,
       createdAt: now.toISOString(),
       formattedDate: now.toLocaleString('es-CO', {
@@ -80,49 +81,53 @@ document.addEventListener('DOMContentLoaded', () => {
       source: 'PBerrio Web Landing'
     };
 
-    // 1. Sincronizar directamente con Google Sheets
-    if (APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL && APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL.trim() !== '') {
-      try {
-        await fetch(APP_CONFIG.GOOGLE_SHEET_WEBHOOK_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify(lead)
-        });
-      } catch (webhookErr) {
-        console.warn('Error al contactar Google Sheets:', webhookErr);
-      }
+    setLoading(true);
+
+    // Sincronizar con Google Sheets. Con mode 'no-cors' la respuesta es opaca:
+    // solo se detecta un fallo de red, y en ese caso no se muestra el éxito.
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(lead)
+      });
+    } catch (webhookErr) {
+      console.warn('Error al contactar Google Sheets:', webhookErr);
+      setLoading(false);
+      formError.textContent = 'No pudimos guardar tu registro. Revisa tu conexión e inténtalo de nuevo.';
+      return;
     }
 
-    // Pequeño retardo simulado para una experiencia fluida
-    setTimeout(() => {
-      setLoading(false);
-      showSuccess(lead);
-    }, 600);
+    setLoading(false);
+    showSuccess(lead);
   });
 
   // Mostrar Éxito
   function showSuccess(lead) {
-    form.style.display = 'none';
-    successState.style.display = 'block';
+    formView.hidden = true;
+    successState.hidden = false;
 
-    const firstName = lead.name.split(' ')[0] || lead.name;
-    registeredUserName.textContent = firstName;
+    registeredUserName.textContent = lead.name.split(' ')[0] || lead.name;
+    registeredUserEmail.textContent = lead.email;
 
     // Configurar enlace de compartir en WhatsApp
-    const currentUrl = window.location.href;
-    const shareMessage = encodeURIComponent(`${APP_CONFIG.SHARE_TEXT}\n${currentUrl}`);
+    const pageUrl = window.location.origin + window.location.pathname;
+    const shareMessage = encodeURIComponent(`${APP_CONFIG.SHARE_TEXT}\n${pageUrl}`);
     whatsappShareBtn.href = `https://api.whatsapp.com/send?text=${shareMessage}`;
 
-    // Disparar Confetti festivo
+    successTitle.focus();
+
+    // Confetti con los colores de la marca
     if (typeof confetti === 'function') {
       confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.65 },
-        colors: ['#0052ff', '#00d4ff', '#ff5400', '#ffffff']
+        particleCount: 90,
+        spread: 75,
+        origin: { y: 0.6 },
+        colors: ['#ff7a00', '#ff5f00', '#ffa94d', '#ffffff'],
+        disableForReducedMotion: true
       });
     }
   }
@@ -130,35 +135,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Registrar a otra persona
   registerAnotherBtn.addEventListener('click', () => {
     form.reset();
-    form.style.display = 'flex';
-    successState.style.display = 'none';
+    successState.hidden = true;
+    formView.hidden = false;
     nameInput.focus();
   });
 
   // Funciones auxiliares de error y carga
   function showError(input, errorElement, message) {
     errorElement.textContent = message;
-    errorElement.classList.add('active');
-    input.closest('.input-wrapper').style.borderColor = '#dc2626';
+    input.setAttribute('aria-invalid', 'true');
+    input.closest('.field').classList.add('is-invalid');
   }
 
   function clearError(input, errorElement) {
     errorElement.textContent = '';
-    errorElement.classList.remove('active');
-    input.closest('.input-wrapper').style.borderColor = '';
+    input.removeAttribute('aria-invalid');
+    input.closest('.field').classList.remove('is-invalid');
   }
 
   function setLoading(loading) {
-    if (loading) {
-      submitBtn.disabled = true;
-      btnText.textContent = 'Guardando tu lugar...';
-      btnIcon.style.display = 'none';
-      btnSpinner.style.display = 'block';
-    } else {
-      submitBtn.disabled = false;
-      btnText.textContent = 'Quiero unirme';
-      btnIcon.style.display = 'block';
-      btnSpinner.style.display = 'none';
-    }
+    submitBtn.disabled = loading;
+    submitBtn.classList.toggle('is-loading', loading);
+    btnText.textContent = loading ? 'Guardando tu lugar...' : 'Quiero unirme';
   }
 });

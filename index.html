@@ -2,67 +2,166 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PBerrio | Transporte, Domicilios y Envíos en Puerto Berrío</title>
-  <meta name="description" content="Sé parte del inicio de algo grande. Únete a la lista de espera de PBerrio y sé de los primeros en probar la nueva app de transporte y domicilios en Puerto Berrío, Antioquia.">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PBerrio | Domicilios y mandados en Puerto Berrío</title>
+  <meta name="description" content="PBerrio llega a Puerto Berrío: la comida de tus restaurantes favoritos y los mandados que necesitas, en una sola app. Déjanos tu nombre y tu correo y sé de los primeros en usarla.">
+  <meta name="theme-color" content="#0b0a09">
+  <meta name="color-scheme" content="dark">
 
-  <!-- Tipografía Google Fonts Inter & Outfit -->
+  <!-- Vista previa al compartir el enlace -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PBerrio | Pre-registro en Puerto Berrío">
+  <meta property="og:description" content="Sé de los primeros en usar PBerrio: comida a domicilio y mandados en Puerto Berrío.">
+
+  <!-- Íconos -->
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <!-- Tipografía: Outfit (títulos) y Plus Jakarta Sans (texto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Confetti para animación de éxito -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <!-- Confetti para el registro exitoso -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js" defer></script>
 
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Fondo escénico con overlay -->
-  <div class="scenic-backdrop"></div>
-  <div class="backdrop-gradient-overlay"></div>
+  <!-- Fondo: brillos naranja, retícula y líneas de velocidad como las del logo -->
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop-glow backdrop-glow--top"></div>
+    <div class="backdrop-glow backdrop-glow--bottom"></div>
+    <div class="backdrop-grid"></div>
+    <div class="backdrop-streaks">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 
-  <!-- Contenedor Principal -->
-  <div class="page-wrapper">
-    <!-- Barra superior / Header -->
-    <header class="top-nav">
-      <div class="logo-container">
-        <img src="assets/logo-full.png" alt="PBerrio - Transporte, Domicilios, Para Ti" class="brand-logo">
-      </div>
-      <div class="location-badge">
-        <i data-lucide="map-pin" class="badge-icon"></i>
-        <div class="location-text">
-          <span class="location-city">PUERTO BERRÍO</span>
-          <span class="location-state">ANTIOQUIA</span>
-        </div>
-      </div>
+  <div class="page">
+    <header class="top-bar">
+      <span class="chip">
+        <svg class="chip-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span>Puerto Berrío<span class="chip-extra">, Antioquia</span></span>
+      </span>
+      <span class="chip chip--live">
+        <span class="live-dot" aria-hidden="true"></span>
+        Pre-registro abierto
+      </span>
     </header>
 
-    <!-- Cuenta regresiva oficial de lanzamiento -->
-    <section class="countdown-section" aria-labelledby="countdown-title">
-      <div class="countdown-card" id="countdown">
-        <div class="countdown-copy">
-          <span class="countdown-eyebrow">
-            <svg class="countdown-eyebrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/>
-              <path d="M16 2v4M8 2v4M3 10h5"/>
-              <path d="M17.5 17.5 16 16.3V14"/>
-              <circle cx="16" cy="16" r="6"/>
-            </svg>
-            CUENTA REGRESIVA OFICIAL
-          </span>
-          <!-- Se usa un párrafo (no un h2) porque la sección va antes del h1
-               del hero; el nombre accesible lo aporta aria-labelledby. -->
-          <p class="countdown-title" id="countdown-title">¡Cada vez falta menos para PBerrio!</p>
-          <p class="countdown-subtitle">Muy pronto, tus restaurantes favoritos de Puerto Berrío estarán más cerca de ti.</p>
+    <main class="layout">
+      <!-- Logo y mensaje principal -->
+      <section class="intro">
+        <div class="brand-mark">
+          <img src="assets/logo-pberrio.png" alt="Logo de PBerrio" width="480" height="401">
         </div>
+        <p class="wordmark">P<span>Berrio</span></p>
+        <h1 class="headline">Sé parte del inicio de <span class="headline-accent">algo grande</span></h1>
+        <p class="lead">
+          La comida de tus restaurantes favoritos y los mandados que necesitas, en una sola app hecha
+          para <strong>Puerto Berrío</strong>. Déjanos tu nombre y tu correo y te avisamos primero.
+        </p>
+      </section>
 
-        <div class="countdown-clock">
+      <!-- Formulario de pre-registro -->
+      <section class="signup" id="registro" aria-labelledby="signup-title">
+        <div class="card signup-card">
+          <div id="signup-form-view">
+            <h2 class="card-title" id="signup-title">Únete a la <span>lista de espera</span></h2>
+            <p class="card-subtitle">Solo dos datos y listo. Te escribiremos cuando PBerrio abra.</p>
+
+            <form id="waitlist-form" novalidate>
+              <div class="field">
+                <label for="name" class="field-label">Tu nombre</label>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <input type="text" id="name" name="name" placeholder="Ej. Juan Gómez" autocomplete="name" maxlength="80" required aria-describedby="name-error">
+                </div>
+                <p class="field-error" id="name-error"></p>
+              </div>
+
+              <div class="field">
+                <label for="email" class="field-label">Tu correo electrónico</label>
+                <div class="input-wrap">
+                  <svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                  <input type="email" id="email" name="email" placeholder="tu@correo.com" autocomplete="email" inputmode="email" maxlength="120" required aria-describedby="email-error">
+                </div>
+                <p class="field-error" id="email-error"></p>
+              </div>
+
+              <p class="form-error" id="form-error" role="alert"></p>
+
+              <button type="submit" id="submit-btn" class="cta-button">
+                <span class="btn-text">Quiero unirme</span>
+                <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+            </form>
+
+            <p class="privacy-note">
+              <svg class="privacy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <span>Tu información estará segura y solo la usaremos para enviarte novedades sobre el lanzamiento.</span>
+            </p>
+          </div>
+
+          <!-- Estado de registro exitoso -->
+          <div id="success-state" class="success" hidden>
+            <div class="success-badge">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 6 9 17l-5-5"/>
+              </svg>
+            </div>
+            <h3 class="success-title" tabindex="-1">¡Listo, <span id="registered-user-name"></span>!</h3>
+            <p class="success-desc">
+              Ya estás en la lista de espera. Te avisaremos a <strong id="registered-user-email"></strong>
+              en cuanto PBerrio abra.
+            </p>
+            <a id="whatsapp-share-btn" href="#" target="_blank" rel="noopener" class="share-btn">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+              </svg>
+              Compartir por WhatsApp
+            </a>
+            <button type="button" id="register-another-btn" class="link-btn">Registrar a otra persona</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cuenta regresiva oficial de lanzamiento -->
+      <section class="countdown-section" aria-labelledby="countdown-title">
+        <div class="card countdown-card" id="countdown">
+          <div class="countdown-head">
+            <span class="countdown-eyebrow">
+              <svg class="countdown-eyebrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/>
+                <path d="M16 2v4M8 2v4M3 10h5"/>
+                <path d="M17.5 17.5 16 16.3V14"/>
+                <circle cx="16" cy="16" r="6"/>
+              </svg>
+              Cuenta regresiva oficial
+            </span>
+            <h2 class="countdown-title" id="countdown-title">Cada vez falta menos</h2>
+          </div>
+
           <!-- Los dígitos se ocultan a lectores de pantalla para evitar que se
                lean "cero cero" cada segundo; el resumen accesible va debajo. -->
           <div class="countdown-timer" aria-hidden="true">
@@ -86,226 +185,65 @@
 
           <p class="sr-only" id="countdown-accessible" role="timer" aria-live="polite" aria-atomic="true"></p>
 
-          <p class="countdown-target">
-            <svg class="countdown-target-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            <span>Lanzamiento: 15 de noviembre de 2026 · 00:00 (hora de Colombia)</span>
-          </p>
+          <p class="countdown-target">Lanzamiento: 15 de noviembre de 2026 · 00:00 (hora de Colombia)</p>
 
           <p class="countdown-launch-message" id="countdown-launch-message" role="status" hidden></p>
         </div>
-      </div>
 
-      <noscript>
-        <p class="countdown-noscript">
-          Activa JavaScript para ver la cuenta regresiva al lanzamiento del 15 de noviembre de 2026.
-        </p>
-      </noscript>
-    </section>
-
-    <!-- Contenido Hero (2 Columnas en Desktop) -->
-    <main class="hero-section">
-      <!-- Columna Izquierda: Información + Formulario -->
-      <section class="hero-left">
-        <!-- Badge Móvil de Puerto Berrío -->
-        <div class="mobile-location-pill">
-          <i data-lucide="map-pin" class="pill-icon"></i>
-          <span>PUERTO BERRÍO • ANTIOQUIA</span>
-        </div>
-
-        <!-- Titulares -->
-        <div class="headline-container">
-          <div class="mobile-badge-tag">MUY PRONTO</div>
-          <h1 class="main-title">
-            Sé parte del inicio<br>
-            <span class="gradient-text">de algo grande</span>
-          </h1>
-          <p class="subtitle">
-            Únete a nuestra lista de espera y sé de los primeros en vivir una nueva forma de moverte, pedir y recibir en <strong>Puerto Berrío</strong>.
+        <noscript>
+          <p class="countdown-noscript">
+            Activa JavaScript para ver la cuenta regresiva al lanzamiento del 15 de noviembre de 2026.
           </p>
-        </div>
-
-        <!-- 4 Pilares / Servicios de PBerrio -->
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon-wrapper car-bg">
-              <i data-lucide="car" class="feature-icon"></i>
-            </div>
-            <div class="feature-info">
-              <h3>Transporte seguro</h3>
-              <p>Viaja tranquilo y rápido</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon-wrapper delivery-bg">
-              <i data-lucide="bike" class="feature-icon"></i>
-            </div>
-            <div class="feature-info">
-              <h3>Domicilios rápidos</h3>
-              <p>Lo que necesitas a tu puerta</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon-wrapper food-bg">
-              <i data-lucide="utensils" class="feature-icon"></i>
-            </div>
-            <div class="feature-info">
-              <h3>Tus restaurantes favoritos</h3>
-              <p>El mejor sabor local</p>
-            </div>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon-wrapper package-bg">
-              <i data-lucide="package" class="feature-icon"></i>
-            </div>
-            <div class="feature-info">
-              <h3>Envíos confiables</h3>
-              <p>Paquetes y encomiendas</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mockup Visual para vista móvil -->
-        <div class="mobile-mockup-display">
-          <img src="assets/hero-phone.png" alt="PBerrio App en Puerto Berrío" class="phone-mockup-img">
-        </div>
-
-        <!-- Tarjeta de Registro (Glassmorphism Form) -->
-        <div class="waitlist-card" id="registro">
-          <div class="card-header">
-            <div class="live-dot-wrapper">
-              <span class="live-pulse"></span>
-              <span class="live-label">CUPOS LIMITADOS PARA PRIMERA FASE</span>
-            </div>
-            <h2 class="card-title">Únete a la <span class="highlight-blue">lista de espera</span></h2>
-            <p class="card-subtitle">Recibe novedades exclusivas y sé de los primeros en probar la app con beneficios de lanzamiento.</p>
-          </div>
-
-          <form id="waitlist-form" novalidate>
-            <!-- Campo Nombre -->
-            <div class="form-group">
-              <label for="name" class="input-label">Tu nombre completo</label>
-              <div class="input-wrapper">
-                <i data-lucide="user" class="input-icon"></i>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name" 
-                  placeholder="Ej. Juan Gómez" 
-                  required 
-                  autocomplete="name"
-                >
-              </div>
-              <span class="field-error" id="name-error"></span>
-            </div>
-
-            <!-- Campo WhatsApp -->
-            <div class="form-group">
-              <label for="phone" class="input-label">Número de WhatsApp</label>
-              <div class="input-wrapper phone-wrapper">
-                <div class="country-prefix">
-                  <span class="flag">🇨🇴</span>
-                  <span class="code">+57</span>
-                </div>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  name="phone" 
-                  placeholder="300 123 4567" 
-                  required 
-                  autocomplete="tel"
-                >
-              </div>
-              <span class="field-error" id="phone-error"></span>
-            </div>
-
-            <!-- Campo Correo -->
-            <div class="form-group">
-              <label for="email" class="input-label">Tu correo electrónico</label>
-              <div class="input-wrapper">
-                <i data-lucide="mail" class="input-icon"></i>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  placeholder="tu@correo.com" 
-                  required 
-                  autocomplete="email"
-                >
-              </div>
-              <span class="field-error" id="email-error"></span>
-            </div>
-
-            <!-- Botón Enviar -->
-            <button type="submit" id="submit-btn" class="cta-button">
-              <span class="btn-text">Quiero unirme</span>
-              <i data-lucide="arrow-right" class="btn-icon"></i>
-              <div class="btn-spinner" style="display: none;"></div>
-            </button>
-          </form>
-
-          <!-- Nota de Privacidad -->
-          <div class="privacy-note">
-            <i data-lucide="shield-check" class="privacy-icon"></i>
-            <span>Tu información estará segura y solo la usaremos para enviarte novedades sobre el lanzamiento.</span>
-          </div>
-
-          <!-- Mensaje de Éxito Flotante / Embebido -->
-          <div id="success-state" class="success-box" style="display: none;">
-            <div class="success-icon-wrapper">
-              <i data-lucide="check-circle" class="success-icon"></i>
-            </div>
-            <h3 class="success-title">¡Ya estás en la lista de espera!</h3>
-            <p class="success-desc">
-              Gracias <strong id="registered-user-name">amigo</strong> por creer en el futuro de Puerto Berrío. Te avisaremos a tu WhatsApp y correo tan pronto abramos el primer acceso.
-            </p>
-            <div class="success-share">
-              <p class="share-title">¿Conoces a alguien más en Puerto Berrío?</p>
-              <a id="whatsapp-share-btn" href="#" target="_blank" class="share-wa-btn">
-                <i data-lucide="message-circle" class="wa-icon"></i>
-                Compartir por WhatsApp
-              </a>
-            </div>
-            <button type="button" id="register-another-btn" class="secondary-btn">Registrar a otra persona</button>
-          </div>
-        </div>
+        </noscript>
       </section>
 
-      <!-- Columna Derecha: Mockup Visual en Desktop -->
-      <section class="hero-right">
-        <div class="mockup-frame">
-          <img src="assets/hero-desktop.png" alt="App PBerrio en Puerto Berrío" class="hero-desktop-img">
-          
-          <!-- Elementos flotantes interactivos de confianza -->
-          <div class="floating-pill app-status-pill">
-            <span class="pulse-green"></span>
+      <!-- Lo que hace PBerrio -->
+      <section class="services" aria-label="Lo que podrás hacer con PBerrio">
+        <ul class="services-list">
+          <li class="service">
+            <span class="service-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+                <path d="M7 2v20"/>
+                <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+              </svg>
+            </span>
             <div>
-              <strong>Lanzamiento 2026</strong>
-              <span>App en fase de pruebas finales</span>
+              <h3>Tus restaurantes</h3>
+              <p>Los platos de Puerto Berrío, directo a tu puerta.</p>
             </div>
-          </div>
-
-          <div class="floating-pill towns-pill">
-            <i data-lucide="map" class="towns-icon"></i>
+          </li>
+          <li class="service">
+            <span class="service-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/>
+                <path d="M12 22V12"/>
+                <path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/>
+                <path d="m7.5 4.27 9 5.15"/>
+              </svg>
+            </span>
             <div>
-              <strong>100% Hecho para Puerto Berrío</strong>
-              <span>Conectando el Magdalena Medio</span>
+              <h3>Mandados</h3>
+              <p>Llevamos o compramos lo que necesites.</p>
             </div>
-          </div>
-        </div>
+          </li>
+          <li class="service">
+            <span class="service-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+              </svg>
+            </span>
+            <div>
+              <h3>Pedido en vivo</h3>
+              <p>Sigue a tu domiciliario en el mapa.</p>
+            </div>
+          </li>
+        </ul>
       </section>
     </main>
 
-    <!-- Footer minimalista -->
-    <footer class="page-footer">
-      <div class="footer-content">
-        <p>© 2026 <strong>PBerrio</strong>. Todos los derechos reservados. Puerto Berrío, Antioquia.</p>
-      </div>
+    <footer class="footer">
+      <p>© 2026 <strong>PBerrio</strong> · Puerto Berrío, Antioquia</p>
     </footer>
   </div>
 
@@ -313,9 +251,5 @@
   <script src="config.js"></script>
   <script src="app.js"></script>
   <script src="countdown.js"></script>
-  <script>
-    // Inicializar iconos de Lucide
-    lucide.createIcons();
-  </script>
 </body>
 </html>
