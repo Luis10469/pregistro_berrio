@@ -1,0 +1,42 @@
+name: Vista previa diaria de la cuenta regresiva
+
+# Cada medianoche de Colombia cambia la imagen de vista previa del enlace
+# (og:image) por la de los días que faltan, para que al compartir pberrio.com
+# en WhatsApp se vea el conteo del día.
+on:
+  schedule:
+    - cron: '2 5 * * *' # 00:02 en Bogotá (UTC-5)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: vista-previa-diaria
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Elegir la imagen del día
+        run: node scripts/actualizar-vista-previa.mjs
+
+      - name: Publicar el cambio
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "La vista previa ya está al día."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Vista previa del enlace: cuenta regresiva del día"
+          git push
+          # Pide a GitHub Pages que publique ya el cambio
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "No se pudo pedir la publicación a GitHub Pages."

@@ -12,6 +12,17 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="PBerrio | Pre-registro en Puerto Berrío">
   <meta property="og:description" content="Sé de los primeros en usar PBerrio: comida a domicilio y mandados en Puerto Berrío.">
+  <meta property="og:url" content="https://pberrio.com/">
+  <meta property="og:site_name" content="PBerrio">
+  <!-- La imagen muestra los días que faltan; scripts/actualizar-vista-previa.mjs
+       la cambia cada medianoche (.github/workflows/vista-previa-diaria.yml). -->
+  <meta property="og:image" content="https://pberrio.com/assets/og/faltan-24.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Cuenta regresiva para el lanzamiento de PBerrio en Puerto Berrío">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://pberrio.com/assets/og/faltan-24.jpg">
 
   <!-- Íconos -->
   <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png">
@@ -57,6 +68,84 @@
     </header>
 
     <main class="layout">
+      <!-- Cuenta regresiva oficial de lanzamiento -->
+      <section class="countdown-section" aria-labelledby="countdown-title">
+        <div class="card countdown-card" id="countdown">
+          <div class="countdown-head">
+            <span class="countdown-eyebrow">
+              <svg class="countdown-eyebrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/>
+                <path d="M16 2v4M8 2v4M3 10h5"/>
+                <path d="M17.5 17.5 16 16.3V14"/>
+                <circle cx="16" cy="16" r="6"/>
+              </svg>
+              Cuenta regresiva oficial
+            </span>
+            <!-- Párrafo (no h2) porque la sección va antes del h1; el nombre
+                 accesible lo aporta aria-labelledby. -->
+            <p class="countdown-title" id="countdown-title">Cada vez falta menos para <span>PBerrio</span></p>
+          </div>
+
+          <!-- Los dígitos se ocultan a lectores de pantalla para evitar que se
+               lean "cero cero" cada segundo; el resumen accesible va debajo. -->
+          <div class="countdown-timer" aria-hidden="true">
+            <div class="countdown-unit">
+              <span class="countdown-value" id="countdown-days">00</span>
+              <span class="countdown-label">Días</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-value" id="countdown-hours">00</span>
+              <span class="countdown-label">Horas</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-value" id="countdown-minutes">00</span>
+              <span class="countdown-label">Minutos</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-value" id="countdown-seconds">00</span>
+              <span class="countdown-label">Segundos</span>
+            </div>
+          </div>
+
+          <p class="sr-only" id="countdown-accessible" role="timer" aria-live="polite" aria-atomic="true"></p>
+
+          <div class="countdown-meta">
+            <p class="countdown-target">Lanzamiento: 15 de noviembre de 2026 · 00:00 (hora de Colombia)</p>
+
+            <p class="countdown-launch-message" id="countdown-launch-message" role="status" hidden></p>
+
+            <!-- Compartir: imagen vertical con el conteo para historias, o el enlace -->
+            <div class="share-actions">
+              <button type="button" class="share-action share-action--story" id="share-story-btn">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                  <circle cx="9" cy="9" r="2"/>
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                </svg>
+                Subir a historias
+              </button>
+              <button type="button" class="share-action" id="share-link-btn">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <circle cx="18" cy="5" r="3"/>
+                  <circle cx="6" cy="12" r="3"/>
+                  <circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/>
+                  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>
+                </svg>
+                Compartir página
+              </button>
+            </div>
+            <p class="share-status" id="share-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <noscript>
+          <p class="countdown-noscript">
+            Activa JavaScript para ver la cuenta regresiva al lanzamiento del 15 de noviembre de 2026.
+          </p>
+        </noscript>
+      </section>
+
       <!-- Logo y mensaje principal -->
       <section class="intro">
         <div class="brand-mark">
@@ -146,57 +235,6 @@
         </div>
       </section>
 
-      <!-- Cuenta regresiva oficial de lanzamiento -->
-      <section class="countdown-section" aria-labelledby="countdown-title">
-        <div class="card countdown-card" id="countdown">
-          <div class="countdown-head">
-            <span class="countdown-eyebrow">
-              <svg class="countdown-eyebrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/>
-                <path d="M16 2v4M8 2v4M3 10h5"/>
-                <path d="M17.5 17.5 16 16.3V14"/>
-                <circle cx="16" cy="16" r="6"/>
-              </svg>
-              Cuenta regresiva oficial
-            </span>
-            <h2 class="countdown-title" id="countdown-title">Cada vez falta menos</h2>
-          </div>
-
-          <!-- Los dígitos se ocultan a lectores de pantalla para evitar que se
-               lean "cero cero" cada segundo; el resumen accesible va debajo. -->
-          <div class="countdown-timer" aria-hidden="true">
-            <div class="countdown-unit">
-              <span class="countdown-value" id="countdown-days">00</span>
-              <span class="countdown-label">Días</span>
-            </div>
-            <div class="countdown-unit">
-              <span class="countdown-value" id="countdown-hours">00</span>
-              <span class="countdown-label">Horas</span>
-            </div>
-            <div class="countdown-unit">
-              <span class="countdown-value" id="countdown-minutes">00</span>
-              <span class="countdown-label">Minutos</span>
-            </div>
-            <div class="countdown-unit">
-              <span class="countdown-value" id="countdown-seconds">00</span>
-              <span class="countdown-label">Segundos</span>
-            </div>
-          </div>
-
-          <p class="sr-only" id="countdown-accessible" role="timer" aria-live="polite" aria-atomic="true"></p>
-
-          <p class="countdown-target">Lanzamiento: 15 de noviembre de 2026 · 00:00 (hora de Colombia)</p>
-
-          <p class="countdown-launch-message" id="countdown-launch-message" role="status" hidden></p>
-        </div>
-
-        <noscript>
-          <p class="countdown-noscript">
-            Activa JavaScript para ver la cuenta regresiva al lanzamiento del 15 de noviembre de 2026.
-          </p>
-        </noscript>
-      </section>
-
       <!-- Lo que hace PBerrio -->
       <section class="services" aria-label="Lo que podrás hacer con PBerrio">
         <ul class="services-list">
@@ -251,5 +289,6 @@
   <script src="config.js"></script>
   <script src="app.js"></script>
   <script src="countdown.js"></script>
+  <script src="share.js"></script>
 </body>
 </html>

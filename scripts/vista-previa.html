@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Lienzo para generar las vistas previas del enlace (assets/og/*.jpg).
+       Uso: vista-previa.html?dias=23  o  vista-previa.html?dias=lanzamiento
+       Lo abre scripts/generar-vistas-previas.py; el dibujo está en share.js. -->
+  <title>Vista previa PBerrio</title>
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; background: #0b0a09; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="lienzo" width="1200" height="630"></canvas>
+  <script src="../countdown.js"></script>
+  <script src="../share.js"></script>
+  <script>
+    var valor = new URLSearchParams(location.search).get('dias') || 'lanzamiento';
+    var dias = valor === 'lanzamiento' ? valor : Number(valor);
+    PBerrioShare.renderPreview(document.getElementById('lienzo'), dias, '../assets/logo-pberrio.png');
+  </script>
+</body>
+</html>
